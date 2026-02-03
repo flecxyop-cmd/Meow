@@ -21,7 +21,7 @@ body {
 }
 
 img {
-  width: 240px;
+  width: 230px;
   animation: shake 1.2s infinite;
 }
 
@@ -35,43 +35,41 @@ p {
   color: #5a001f;
 }
 
+/* MAIN BUTTON AREA */
 .buttons {
-  margin-top: 30px;
   position: relative;
-  height: 220px;
   width: 320px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 260px;
+  margin: 30px auto;
 }
 
-button {
-  border: none;
-  border-radius: 14px;
-  padding: 14px 30px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* YES button - safe zone */
+/* YES BUTTON — LOCKED SAFE ZONE */
 #yesBtn {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   background: #2ecc71;
   color: white;
-  position: absolute;
-  left: 50%;
-  top: 140px;
-  transform: translateX(-50%);
-  z-index: 2;
+  padding: 16px 36px;
+  font-size: 22px;
+  border-radius: 14px;
+  border: none;
+  z-index: 5;
 }
 
-/* NO button - runaway */
+/* NO BUTTON — ONLY TOP ZONE */
 #noBtn {
+  position: absolute;
+  top: 10px;
+  left: 20px;
   background: #ff3b3b;
   color: white;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1;
+  padding: 14px 30px;
+  font-size: 20px;
+  border-radius: 14px;
+  border: none;
+  z-index: 3;
 }
 
 @keyframes shake {
@@ -95,82 +93,54 @@ button {
 <div class="container">
   <img src="https://media.giphy.com/media/ROF8OQvDmxytW/giphy.gif">
   <h1 id="text">Please forgive meeeee 🥺</h1>
-  <p>(The cat is emotionally unstable)</p>
+  <p>(emotionally unstable cat)</p>
 
   <div class="buttons">
-    <button id="noBtn" onmouseover="runAway()">NO 😐</button>
-    <button id="yesBtn" onclick="yesClicked()">YES 😭💖</button>
+    <button id="noBtn">NO 😐</button>
+    <button id="yesBtn">YES 😭💖</button>
   </div>
 </div>
 
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-</audio>
-
 <script>
-let size = 20;
+let size = 22;
 const texts = [
   "I won’t do it again 😭",
   "Pleaseeee don’t break my heart 💔",
-  "The cat hasn’t eaten since yesterday 😿",
-  "Look at those eyes 🥺",
-  "Okay now this is getting serious 😭😭"
+  "The cat hasn’t eaten 😿",
+  "LOOK AT ME 🥺",
+  "Okay now this hurts 😭😭"
 ];
 
-function runAway() {
-  const noBtn = document.getElementById("noBtn");
-  const box = document.querySelector(".buttons");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const box = document.querySelector(".buttons");
 
+function escapeNo() {
   const maxX = box.clientWidth - noBtn.offsetWidth;
-  const maxY = box.clientHeight - noBtn.offsetHeight - 80;
+  const maxY = 120; // LIMIT NO TO TOP AREA ONLY
 
-  let x, y;
-  do {
-    x = Math.random() * maxX;
-    y = Math.random() * maxY;
-  } while (y > 80); // keep NO far from YES
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  size += 6;
-  const yes = document.getElementById("yesBtn");
-  yes.style.fontSize = size + "px";
-  yes.style.padding =
-    (14 + size / 4) + "px " + (30 + size / 3) + "px";
+  size += 4;
+  yesBtn.style.fontSize = size + "px";
+  yesBtn.style.padding =
+    (16 + size / 4) + "px " + (36 + size / 3) + "px";
 
   document.getElementById("text").innerText =
     texts[Math.floor(Math.random() * texts.length)];
 }
 
-function yesClicked() {
+/* MOBILE + DESKTOP SAFE */
+noBtn.addEventListener("mouseenter", escapeNo);
+noBtn.addEventListener("touchstart", escapeNo);
+
+yesBtn.onclick = () => {
   window.location.href = "happy.html";
-}
-</script>
-
-</body>
-</html>function runAway() {
-  const noBtn = document.getElementById("noBtn");
-  const box = document.querySelector(".buttons");
-
-  const x = Math.random() * (box.offsetWidth - noBtn.offsetWidth);
-  const y = Math.random() * (box.offsetHeight - noBtn.offsetHeight);
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-
-  size += 6;
-  const yes = document.getElementById("yesBtn");
-  yes.style.fontSize = size + "px";
-  yes.style.padding = (14 + size/4) + "px " + (30 + size/3) + "px";
-
-  document.getElementById("text").innerText =
-    texts[Math.floor(Math.random() * texts.length)];
-}
-
-function yesClicked() {
-  window.location.href = "happy.html";
-}
+};
 </script>
 
 </body>
