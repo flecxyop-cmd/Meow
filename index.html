@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Please Forgive Me 😿</title>
+<title>Anushka please forgive me 😿</title>
 
 <style>
 body {
@@ -30,12 +30,28 @@ h1 {
   animation: pulse 1.5s infinite;
 }
 
-p {
+#bubble {
+  display: inline-block;
+  background: white;
+  padding: 12px 18px;
+  border-radius: 18px;
+  margin-top: 10px;
   font-size: 18px;
-  color: #5a001f;
+  color: #b3003b;
+  max-width: 260px;
+  position: relative;
 }
 
-/* MAIN BUTTON AREA */
+#bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 30px;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: white transparent;
+}
+
 .buttons {
   position: relative;
   width: 320px;
@@ -43,7 +59,6 @@ p {
   margin: 30px auto;
 }
 
-/* YES BUTTON — LOCKED SAFE ZONE */
 #yesBtn {
   position: absolute;
   bottom: 0;
@@ -58,7 +73,6 @@ p {
   z-index: 5;
 }
 
-/* NO BUTTON — ONLY TOP ZONE */
 #noBtn {
   position: absolute;
   top: 10px;
@@ -91,9 +105,13 @@ p {
 <body>
 
 <div class="container">
-  <img src="https://media.giphy.com/media/ROF8OQvDmxytW/giphy.gif">
-  <h1 id="text">Please forgive meeeee 🥺</h1>
-  <p>(emotionally unstable cat)</p>
+  <!-- REAL CAT GIF -->
+  <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+
+  <h1>Anushka, please forgive me 🥺</h1>
+
+  <!-- Talking bubble -->
+  <div id="bubble">Anushka pleaseee 🥺💔</div>
 
   <div class="buttons">
     <button id="noBtn">NO 😐</button>
@@ -103,21 +121,30 @@ p {
 
 <script>
 let size = 22;
+
 const texts = [
-  "I won’t do it again 😭",
-  "Pleaseeee don’t break my heart 💔",
-  "The cat hasn’t eaten 😿",
-  "LOOK AT ME 🥺",
-  "Okay now this hurts 😭😭"
+  "Anushka please forgive me 😭",
+  "I swear I won’t repeat it, Anushka 💔",
+  "Anushka look at me 🥺",
+  "This cat is crying because of you 😿",
+  "Okay now this is serious Anushka 😭😭"
 ];
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const box = document.querySelector(".buttons");
+const bubble = document.getElementById("bubble");
+
+function catSpeak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.pitch = 1.8;
+  msg.rate = 0.9;
+  speechSynthesis.speak(msg);
+}
 
 function escapeNo() {
   const maxX = box.clientWidth - noBtn.offsetWidth;
-  const maxY = 120; // LIMIT NO TO TOP AREA ONLY
+  const maxY = 120;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
@@ -130,11 +157,11 @@ function escapeNo() {
   yesBtn.style.padding =
     (16 + size / 4) + "px " + (36 + size / 3) + "px";
 
-  document.getElementById("text").innerText =
-    texts[Math.floor(Math.random() * texts.length)];
+  const text = texts[Math.floor(Math.random() * texts.length)];
+  bubble.innerText = text;
+  catSpeak(text);
 }
 
-/* MOBILE + DESKTOP SAFE */
 noBtn.addEventListener("mouseenter", escapeNo);
 noBtn.addEventListener("touchstart", escapeNo);
 
