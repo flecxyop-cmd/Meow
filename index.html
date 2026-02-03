@@ -31,14 +31,17 @@ h1 {
 }
 
 p {
-  font-size: 20px;
+  font-size: 18px;
   color: #5a001f;
 }
 
 .buttons {
+  margin-top: 30px;
   position: relative;
-  height: 140px;
-  margin-top: 20px;
+  height: 220px;
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
@@ -47,20 +50,28 @@ button {
   padding: 14px 30px;
   font-size: 20px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
+/* YES button - safe zone */
 #yesBtn {
   background: #2ecc71;
   color: white;
+  position: absolute;
+  left: 50%;
+  top: 140px;
+  transform: translateX(-50%);
+  z-index: 2;
 }
 
+/* NO button - runaway */
 #noBtn {
   background: #ff3b3b;
   color: white;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px;
+  left: 20px;
+  z-index: 1;
 }
 
 @keyframes shake {
@@ -87,8 +98,8 @@ button {
   <p>(The cat is emotionally unstable)</p>
 
   <div class="buttons">
-    <button id="yesBtn" onclick="yesClicked()">YES 😭💖</button>
     <button id="noBtn" onmouseover="runAway()">NO 😐</button>
+    <button id="yesBtn" onclick="yesClicked()">YES 😭💖</button>
   </div>
 </div>
 
@@ -107,6 +118,38 @@ const texts = [
 ];
 
 function runAway() {
+  const noBtn = document.getElementById("noBtn");
+  const box = document.querySelector(".buttons");
+
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight - 80;
+
+  let x, y;
+  do {
+    x = Math.random() * maxX;
+    y = Math.random() * maxY;
+  } while (y > 80); // keep NO far from YES
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  size += 6;
+  const yes = document.getElementById("yesBtn");
+  yes.style.fontSize = size + "px";
+  yes.style.padding =
+    (14 + size / 4) + "px " + (30 + size / 3) + "px";
+
+  document.getElementById("text").innerText =
+    texts[Math.floor(Math.random() * texts.length)];
+}
+
+function yesClicked() {
+  window.location.href = "happy.html";
+}
+</script>
+
+</body>
+</html>function runAway() {
   const noBtn = document.getElementById("noBtn");
   const box = document.querySelector(".buttons");
 
